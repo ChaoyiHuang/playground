@@ -1,0 +1,72 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: npu-test
+  name: pod1
+spec:
+  containers:
+  - name: container1
+    image: test-multi-npu:0.10
+    resources:
+      claims:
+      - name: group-npu
+        request: npu1
+  resourceClaims:
+  - name: group-npu
+    resourceClaimName: m2n-npus
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: npu-test
+  name: pod2
+spec:
+  containers:
+  - name: container2
+    image: test-multi-npu:0.10
+    resources:
+      claims:
+      - name: group-npu
+        request: npu2
+  resourceClaims:
+  - name: group-npu
+    resourceClaimName: m2n-npus
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: npu-test
+  name: pod3
+spec:
+  containers:
+  - name: container3
+    image: test-multi-npu:0.10
+    resources:
+      claims:
+      - name: group-npu
+        request: npu3
+  resourceClaims:
+  - name: group-npu
+    resourceClaimName: m2n-npus
+
+---
+apiVersion: resource.k8s.io/v1alpha3
+kind: ResourceClaim
+metadata:
+  namespace: npu-test
+  name: m2n-npus
+spec:
+  devices:
+    requests:
+    - name: npu1
+      deviceClassName: npu.example.com
+    - name: npu2
+      deviceClassName: npu.example.com
+    - name: npu3
+      deviceClassName: npu.example.com
+    constraints:
+       - requestNames: ["npu1", "npu2", "npu3"]
+         matchAttributes: k8sio.pcie-bus
