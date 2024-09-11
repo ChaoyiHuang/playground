@@ -69,4 +69,4 @@ spec:
       deviceClassName: npu.example.com
     constraints:
        - requestNames: ["npu1", "npu2", "npu3"]
-         matchAttributes: k8sio.pcie-bus
+         matchAttributes: k8sio.special-bus
